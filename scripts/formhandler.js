@@ -45,7 +45,26 @@
                 message = emailAddress + ' is not an authorized email address!';
                 event.target.setCustomValidity(message);
             }
+        });
+    };
 
+    FormHandler.prototype.addDecafInputHandler = function (fn) {
+        this.$formElement.on('input', '[id="coffeeOrder"], [id="strengthLevel"]', function (event){
+            console.log(event);
+
+            var order = $('[id="coffeeOrder"]').val();
+            var strength = $('[id="strengthLevel"]').val();
+            var message = '';
+
+            if (order == 'decaf' && !fn(order, strength)){
+                message = 'A ' + order + ' with a strength of ' + strength + ' is not decaf';
+            }
+
+            //I couldn't figure out how to setCustomValidity() on a jQuery object
+            var coffeeOrder = document.querySelector('[id="coffeeOrder"]');
+            coffeeOrder.setCustomValidity(message);
+            var coffeeStrength = document.querySelector('[id="strengthLevel"]');
+            coffeeStrength.setCustomValidity(message);
         });
     };
 
